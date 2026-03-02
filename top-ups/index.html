@@ -3,30 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thryless Top Ups</title>
+    <title>Thryless | Pase Booyah</title>
     <style>
         body {
-            background-color: #0d1117; /* Fondo oscuro tipo GitHub/Ethereum */
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d1117;
+            color: white;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px;
+        }
+        h1 { color: #58a6ff; margin-bottom: 5px; }
+        .container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+        
+        /* Tarjetas estilo Ethereum/Gaming */
+        .card {
+            background: #161b22;
+            border: 2px solid #30363d;
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
             text-align: center;
+            transition: 0.3s;
         }
-        h1 {
-            color: #58a6ff; /* Azul brillante */
-            font-size: 3rem;
-            margin-bottom: 10px;
+        .card:hover { border-color: #58a6ff; transform: translateY(-5px); box-shadow: 0 0 15px rgba(88, 166, 255, 0.3); }
+        
+        .price { font-size: 24px; font-weight: bold; color: #ffca28; margin: 15px 0; }
+        
+        .btn {
+            background-color: #238636;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
         }
+        .btn:hover { background-color: #2ea043; }
     </style>
 </head>
 <body>
 
-    <h1>Chicos, deben respetar...</h1>
+    <h1>Thryless Top Ups</h1>
+    <p>Pases Booyah - Temporada Marzo</p>
+
+    <div class="container">
+        <div class="card">
+            <h3>Premium</h3>
+            <div class="price">300 💎</div>
+            <p>Recompensas exclusivas</p>
+            <a href="https://wa.me/TUNUMERO" class="btn">Comprar Ahora</a>
+        </div>
+
+        <div class="card">
+            <h3>Premium Plus</h3>
+            <div class="price">800 💎</div>
+            <p>+50 Niveles al instante</p>
+            <a href="https://wa.me/TUNUMERO" class="btn">Comprar Ahora</a>
+        </div>
+    </div>
+
+    <p style="margin-top: 50px; color: #8b949e;">Bro respeta...</p>
 
 </body>
 </html>
