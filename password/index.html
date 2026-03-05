@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador Pro 3x4 + Guía de Símbolos</title>
+    <style>
+        :root { --primary: #e94560; --bg: #1a1a2e; --card: #16213e; --accent: #00d4ff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 900px; }
+        
+        /* Panel del Generador */
+        .card { background: var(--card); padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 350px; border: 1px solid #0f3460; }
+        .password-display { background: #0f3460; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 1.5rem; margin-bottom: 1rem; word-break: break-all; border: 2px solid #533483; color: var(--accent); min-height: 1.6em; }
+        
+        .btn-group { display: flex; gap: 10px; }
+        button { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; flex: 2; }
+        .btn-copy { background: #533483; flex: 1; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* Panel de Ayuda (Símbolos) */
+        .help-panel { background: var(--card); padding: 1.5rem; border-radius: 15px; border: 1px solid #0f3460; width: 400px; max-height: 500px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { text-align: left; color: var(--primary); border-bottom: 2px solid #0f3460; padding: 8px; }
+        td { padding: 6px 8px; border-bottom: 1px solid #0f3460; }
+        .symbol-char { font-family: monospace; font-weight: bold; color: var(--accent); font-size: 1.1rem; }
+        .alt-code { color: #95a5a6; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #533483; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h2 style="color: var(--primary);">Generador 3x4</h2>
+        <div class="password-display" id="pass-out">********</div>
+        <div class="btn-group">
+            <button onclick="generar()">Generar</button>
+            <button class="btn-copy" onclick="copiar()">Copiar</button>
+        </div>
+        <p style="font-size: 0.8rem; color: #95a5a6; margin-top: 15px;">
+            12 caracteres: 3 Mayus, 3 Minus, 3 Núm, 3 Símbolos.
+        </p>
+    </div>
+
+    <div class="help-panel">
+        <h3>Guía de Símbolos (Alt + Número)</h3>
+        <table>
+            <thead>
+                <tr><th>Símbolo</th><th>Comando</th><th>Símbolo</th><th>Comando</th></tr>
+            </thead>
+            <tbody id="symbol-table">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const symbolsData = [
+        {s:"!", c:"33"}, {s:'"', c:"34"}, {s:"#", c:"35"}, {s:"$", c:"36"},
+        {s:"%", c:"37"}, {s:"&", c:"38"}, {s:"(", c:"40"}, {s:")", c:"41"},
+        {s:"*", c:"42"}, {s:"+", c:"43"}, {s:",", c:"44"}, {s:"-", c:"45"},
+        {s:".", c:"46"}, {s:"/", c:"47"}, {s:":", c:"58"}, {s:";", c:"59"},
+        {s:"<", c:"60"}, {s:"=", c:"61"}, {s:">", c:"62"}, {s:"?", c:"63"},
+        {s:"@", c:"64"}, {s:"[", c:"91"}, {s:"\\", c:"92"}, {s:"]", c:"93"},
+        {s:"^", c:"94"}, {s:"_", c:"95"}, {s:"`", c:"96"}, {s:"{", c:"123"},
+        {s:"|", c:"124"}, {s:"}", c:"125"}, {s:"~", c:"126"}
+    ];
+
+    // Cargar tabla de símbolos
+    const tableBody = document.getElementById('symbol-table');
+    for(let i=0; i<symbolsData.length; i+=2) {
+        let row = `<tr>
+            <td class="symbol-char">${symbolsData[i].s}</td><td class="alt-code">Alt+${symbolsData[i].c}</td>
+            ${symbolsData[i+1] ? `<td class="symbol-char">${symbolsData[i+1].s}</td><td class="alt-code">Alt+${symbolsData[i+1].c}</td>` : '<td></td><td></td>'}
+        </tr>`;
+        tableBody.innerHTML += row;
+    }
+
+    function generar() {
+        const mayus = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const minus = "abcdefghijklmnopqrstuvwxyz";
+        const nums = "0123456789";
+        const syms = "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~";
+
+        let passArray = [];
+        const get3 = (str) => {
+            for(let i=0; i<3; i++) passArray.push(str[Math.floor(Math.random() * str.length)]);
+        };
+
+        get3(mayus); get3(minus); get3(nums); get3(syms);
+
+        for (let i = passArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [passArray[i], passArray[j]] = [passArray[j], passArray[i]];
+        }
+        document.getElementById('pass-out').innerText = passArray.join('');
+    }
+
+    function copiar() {
+        const text = document.getElementById('pass-out').innerText;
+        if(text === "********") return;
+        navigator.clipboard.writeText(text);
+        alert("¡Copiada al portapapeles!");
+    }
+</script>
+
+</body>
+</html>
